@@ -1,20 +1,17 @@
 ---
 - name: Make sure HTTPS is supported by apt
-  become: true
   apt:
     name: apt-transport-https
     state: present
     update_cache: yes
 
 - name: Import YARN APT key
-  become: true
   apt_key:
     url: "{{ yarn_debian_repo_gpg_key_url }}"
     state: present
   when: (http_proxy is undefined) or (http_proxy is none)
 
 - name: Import YARN APT key (proxy)
-  become: true
   apt_key:
     url: "{{ yarn_debian_repo_gpg_key_url }}"
     state: present
@@ -25,7 +22,6 @@
         and (http_proxy | length > 0)
 
 - name: Install YARN APT repo
-  become: true
   apt_repository:
     repo: "deb {{ yarn_debian_repo_url }}"
     filename: "yarn"
